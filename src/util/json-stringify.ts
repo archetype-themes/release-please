@@ -15,13 +15,24 @@
 import detectIndent = require('detect-indent');
 
 export function jsonStringify(
-  parsed: object,
+  parsed: object | (object)[],
   content: string,
   replacer?: (string | number)[]
 ): string {
-  return `${content.slice(0, content.indexOf('{'))}${JSON.stringify(
-    parsed,
-    replacer,
-    detectIndent(content.trim()).indent
-  )}${content.slice(content.lastIndexOf('}') + 1)}`;
+  const trimmedContent = content.trim();
+    const indent = detectIndent(trimmedContent).indent;
+
+    if (Array.isArray(parsed)) {
+      return `${content.slice(0, content.indexOf('['))}${JSON.stringify(
+          parsed,
+          replacer,
+          indent
+      )}${content.slice(content.lastIndexOf(']') + 1)}`;
+    } else {
+      return `${content.slice(0, content.indexOf('{'))}${JSON.stringify(
+          parsed,
+          replacer,
+          indent
+      )}${content.slice(content.lastIndexOf('}') + 1)}`;
+    }
 }
