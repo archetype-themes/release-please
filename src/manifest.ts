@@ -1002,6 +1002,11 @@ export class Manifest {
       openPullRequest =>
         openPullRequest.headBranchName === pullRequest.headRefName
     );
+
+    this.logger.info(
+      `Found existing: ${existing}`
+    );
+
     if (existing) {
       return await this.maybeUpdateExistingPullRequest(existing, pullRequest);
     }

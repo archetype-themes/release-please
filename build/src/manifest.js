@@ -533,6 +533,7 @@ class Manifest {
     async createOrUpdatePullRequest(pullRequest, openPullRequests, snoozedPullRequests) {
         // look for existing, open pull request
         const existing = openPullRequests.find(openPullRequest => openPullRequest.headBranchName === pullRequest.headRefName);
+        this.logger.info(`Found existing: ${existing}`);
         if (existing) {
             return await this.maybeUpdateExistingPullRequest(existing, pullRequest);
         }
